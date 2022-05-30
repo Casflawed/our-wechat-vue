@@ -1,22 +1,50 @@
 <template>
   <div id="app">
-    <Home></Home>
+    <div class="sidebar">
+      <card></card>
+      <list></list>
+    </div>
+    <div class="main">主页面</div>
   </div>
 </template>
 
 <script>
-import Home from '@/views/Home'
+import Card from "./components/card.vue";
+import List from "./components/list.vue";
 export default {
   name: "App",
   components: {
-    Home
+    Card,
+    List,
   },
 };
 </script>
 
 <style scoped>
 #app {
-  /* 一屏高 */
-  height: 100vh;
+  margin: 20px auto;
+  width: 800px;
+  height: 600px;
+  background-color: skyblue;
+  overflow: hidden;
+  border-radius: 3px;
 }
+
+.sidebar,
+.main {
+  height: 100%;
+}
+
+.sidebar {
+  float: left;
+  width: 200px;
+  color: #f4f4f4;
+  background-color: #2e3238;
+}
+
+.main {
+        position: relative;
+        overflow: hidden;
+        background-color: skyblue;
+    }
 </style>
