@@ -1,50 +1,80 @@
 <template>
   <div id="app">
     <div class="sidebar">
-      <card></card>
-      <list></list>
+      <!-- 1.侧边栏 -->
+      <sidebar-node></sidebar-node>
     </div>
-    <div class="main">主页面</div>
+    <!-- 1.主页（用户列表、消息列表） -->
+    <div class="main">
+      <user-list></user-list>
+      <message-list></message-list>
+    </div>
   </div>
 </template>
 
 <script>
-import Card from "./components/card.vue";
-import List from "./components/list.vue";
+import MessageList from './components/MessageList.vue';
+import SidebarNode from './components/SidebarNode.vue';
+import UserList from './components/UserList.vue';
+
 export default {
   name: "App",
   components: {
-    Card,
-    List,
+    MessageList,
+    UserList,
+    SidebarNode
   },
 };
 </script>
 
 <style scoped>
 #app {
-  margin: 20px auto;
-  width: 800px;
   height: 600px;
-  background-color: skyblue;
-  overflow: hidden;
-  border-radius: 3px;
+  width: 860px;
+  margin: 20px auto;
+  
 }
 
-.sidebar,
-.main {
+/* 1.外侧容器-start */
+.sidebar{
+  background-color: #2b2c2f;
+  height: 100%;
+  width: 60px;
+  /* 左列 */
+  float: left;
+}
+
+.main{
+  height: 100%;
+  width: 800px;
+  /* 1.内容溢出时做隐藏操作，不会出现滚轮，scroll会出现滚轮 
+     2.清除浮动效果，这样main容器就不会占据sidebar的文档流*/
+  overflow: hidden;
+}
+/* 1.外侧容器-end */
+
+
+/* 2.内部组件-start */
+.sidebar-node{
   height: 100%;
 }
 
-.sidebar {
+.user-list{
+  width: 250px;
+  height: 100%;
   float: left;
-  width: 200px;
-  color: #f4f4f4;
-  background-color: #2e3238;
+  background-color: #e6e6e6;
+
 }
 
-.main {
-        position: relative;
-        overflow: hidden;
-        background-color: skyblue;
-    }
+.message-list{
+  background-color: whitesmoke;
+  width: 550px;
+  height: 100%;
+  overflow: hidden;
+}
+/* 2.内部组件-end */
+
+
+
 </style>
