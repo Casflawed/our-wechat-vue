@@ -1,0 +1,39 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3441901 */
+  src: url('iconfont.woff2?t=1653998654046') format('woff2'),
+       url('iconfont.woff?t=1653998654046') format('woff'),
+       url('iconfont.ttf?t=1653998654046') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  /* font-size: 16px; */
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vuepengyouquan:before {
+  content: "\e6a0";
+}
+
+.icon-vuexiaoxi:before {
+  content: "\e68c";
+}
+
+.icon-vuewenjian:before {
+  content: "\e64c";
+}
+
+.icon-vuelianxiren:before {
+  content: "\e9d2";
+}
+
+.icon-vuecollection-1:before {
+  content: "\e646";
+}
+
+.icon-vueset-3:before {
+  content: "\e63d";
+}
+
