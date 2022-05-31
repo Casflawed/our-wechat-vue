@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3441901 */
-  src: url('iconfont.woff2?t=1653998654046') format('woff2'),
-       url('iconfont.woff?t=1653998654046') format('woff'),
-       url('iconfont.ttf?t=1653998654046') format('truetype');
+  src: url('iconfont.woff2?t=1654002206687') format('woff2'),
+       url('iconfont.woff?t=1654002206687') format('woff'),
+       url('iconfont.ttf?t=1654002206687') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vuesousuo:before {
+  content: "\e651";
 }
 
 .icon-vuepengyouquan:before {

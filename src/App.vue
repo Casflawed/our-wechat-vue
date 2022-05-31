@@ -61,6 +61,7 @@ export default {
 }
 
 .user-list {
+  position: relative;
   width: 250px;
   height: 100%;
   float: left;
