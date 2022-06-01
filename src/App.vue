@@ -7,7 +7,7 @@
     </div>
     <!-- 1.主页（用户列表、消息列表） -->
     <div class="main">
-      <user-list></user-list>
+      <friend-list></friend-list>
       <message-list></message-list>
     </div>
     <div></div>
@@ -15,15 +15,15 @@
 </template>
 
 <script>
+import FriendList from './components/FriendList.vue';
 import MessageList from "./components/MessageList.vue";
 import SidebarNode from "./components/SidebarNode.vue";
-import UserList from "./components/UserList.vue";
 
 export default {
   name: "App",
   components: {
     MessageList,
-    UserList,
+    FriendList,
     SidebarNode,
   },
 };
@@ -60,7 +60,7 @@ export default {
   height: 100%;
 }
 
-.user-list {
+.friend-list {
   position: relative;
   width: 250px;
   height: 100%;
