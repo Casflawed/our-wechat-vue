@@ -6,6 +6,20 @@
   "description": "仿微信",
   "glyphs": [
     {
+      "icon_id": "3861052",
+      "name": "男士",
+      "font_class": "nanshi",
+      "unicode": "e6a9",
+      "unicode_decimal": 59049
+    },
+    {
+      "icon_id": "3861053",
+      "name": "女士",
+      "font_class": "nvshi",
+      "unicode": "e6aa",
+      "unicode_decimal": 59050
+    },
+    {
       "icon_id": "629357",
       "name": "搜索",
       "font_class": "sousuo",

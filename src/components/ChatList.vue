@@ -1,20 +1,27 @@
 <template>
-  <div class="friend_list">
+  <div class="chat_list">
     <!-- 1.搜索栏 -->
     <div class="search_wrapper">
       <input class="search_input" placeholder="搜索" />
       <i class="icon iconfont icon-vuesousuo"></i>
     </div>
     <!-- 2.item列表 -->
-    <div class="friend_list_wrapper">
+    <div class="chat_list_wrapper">
       <ul>
         <!-- 3.item -->
         <li>
-          <div class="friend_item_wrapper">
-            <div class="prefix_letter">F</div>
-            <div class="friend_item_block friend_item_active">
-              <img class="friend_avatar" src="../assets/img/flameking.jpg" />
-              <span class="friend_nick">flameking</span>
+          <div class="chat_item_wrapper">
+            <div class="chat_item_block chat_item_active">
+              <div class="chat_item_left">
+                <img class="chat_avatar" src="../assets/img/flameking.jpg" />
+              </div>
+              <div class="chat_item_mid">
+                <span class="chat_nick">flameking</span>
+                <p class="chat_digest">woc</p>
+              </div>
+              <div class="chat_item_right">
+                <span class="chat_time_stamp">12:00</span>
+              </div>
             </div>
           </div>
         </li>
@@ -23,12 +30,11 @@
   </div>
 </template>
 
-<script scoped>
+<script>
 // 2.引入weui组件
 export default {
-  name: "FriendList",
-  components: {
-  },
+  name: "chatList",
+  components: {},
   data() {
     return {};
   },
@@ -38,13 +44,7 @@ export default {
 
 <style scoped>
 /* 好友选项卡样式start */
-.prefix_letter {
-  /* 联系人名称首字母 */
-  color: #999;
-  padding: 0px 12px;
-  font-size: 12px;
-}
-.friend_item_active {
+.chat_item_active {
   /* 好友选项卡激活样式 */
   background-color: #c4c4c4;
 }
@@ -52,22 +52,34 @@ ul {
   /* 消除list样式 */
   list-style-type: none;
 }
-.friend_item_block {
+.chat_item_block {
   /* block采用flex布局，子元素x,y方向自动对其 */
   display: flex;
   padding: 12px;
 }
-.friend_nick {
-  display: inline-block;
+.chat_nick {
+  /* display: inline-block;
   line-height: 36px;
-  text-align: center;
+  text-align: center; */
   font-size: 14px;
 }
-.friend_avatar {
-  width: 36px;
-  height: 36px;
-  margin-right: 12px;
+.chat_digest {
+  font-size: 12px;
+  color: #999;
+  width: 150px;
+  height: 15px;
 }
+.chat_time_stamp {
+  font-size: 10px;
+  color: #999;
+}
+.chat_avatar {
+  width: 42px;
+  height: 42px;
+  margin-right: 12px;
+  border-radius: 5px;
+}
+
 /* 好友选项卡样式end */
 
 /* 搜索框样式start */
@@ -99,9 +111,8 @@ ul {
   line-height: 24px;
   text-align: center;
 
-  height: 24px;
   width: 24px;
-
+  height: 24px;
   font-size: 14px;
 }
 /* 搜索框样式end */

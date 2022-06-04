@@ -1,16 +1,23 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3441901 */
-  src: url('iconfont.woff2?t=1654002206687') format('woff2'),
-       url('iconfont.woff?t=1654002206687') format('woff'),
-       url('iconfont.ttf?t=1654002206687') format('truetype');
+  src: url('iconfont.woff2?t=1654260255345') format('woff2'),
+       url('iconfont.woff?t=1654260255345') format('woff'),
+       url('iconfont.ttf?t=1654260255345') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
-  /* font-size: 16px; */
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-vuenanshi:before {
+  content: "\e6a9";
+}
+
+.icon-vuenvshi:before {
+  content: "\e6aa";
 }
 
 .icon-vuesousuo:before {
