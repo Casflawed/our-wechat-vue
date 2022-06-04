@@ -1,6 +1,7 @@
 module.exports = {
     lintOnSave:false,
     devServer: {
+        port:5000,
         proxy: {
             "/api": {
                 target: 'http://localhost:8080', // 目标服务器的根路径

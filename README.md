@@ -1,4 +1,4 @@
-# our-wechat
+# our-wechat-vue
 仿微信Web端
 
 ## ui布局架构完成-flameking-22.05.30
