@@ -15,8 +15,14 @@ service.interceptors.request.use((config) => {
 
 service.interceptors.response.use(
     (response) => {
+        let res = response.data;
         // 功能2：配置获取到的响应就是我们需要的数据
-        return response.data;
+        if (res.code === 0) {
+            return res.data
+        } else {
+            Element.Message.error(res.msg, {duration: 2 * 1000})
+            return Promise.reject(response.data)
+        }
     },
     (error) => {
         // 功能3：统一处理错误
