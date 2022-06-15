@@ -1,20 +1,28 @@
 <template>
-  <!-- 1.主页（用户列表、消息列表） -->
-  <div class="main_friend">
-    <friend-list></friend-list>
-    <friend-info></friend-info>
+  <div class="container">
+    <div class="sidebar">
+      <!-- 1.侧边栏 -->
+      <sidebar-node></sidebar-node>
+    </div>
+    <!-- 1.主页（用户列表、消息列表） -->
+    <div class="main_friend">
+      <friend-list></friend-list>
+      <friend-info></friend-info>
+    </div>
   </div>
 </template>
 
 <script>
 import FriendList from "../components/FriendList.vue";
 import FriendInfo from "../components/FriendInfo.vue";
+import SidebarNode from '../components/SidebarNode.vue';
 
 export default {
   name: "MainFriend",
   components: {
     FriendList,
     FriendInfo,
+    SidebarNode
   },
   data() {
     return {};
@@ -27,12 +35,15 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  height: 100%;
+  width: 800px;
+  display: flex;
+}
 .main_friend {
   height: 100%;
   width: 800px;
-  /* 1.内容溢出时做隐藏操作，不会出现滚轮，scroll会出现滚轮 
-     2.清除浮动效果，这样main容器就不会占据sidebar的文档流*/
-  overflow: hidden;
+  display: flex;
 }
 .friend_list {
   position: relative;
@@ -46,5 +57,16 @@ export default {
   width: 550px;
   height: 100%;
   overflow: hidden;
+}
+
+.sidebar {
+  background-color: #2b2c2f;
+  height: 100%;
+  width: 60px;
+  float: left;
+}
+.sidebar_node {
+  position: relative;
+  height: 100%;
 }
 </style>

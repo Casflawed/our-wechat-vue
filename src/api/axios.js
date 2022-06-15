@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from '../store'
 
 // 创建另一个axios实例
 const service = axios.create({
@@ -10,6 +11,11 @@ const service = axios.create({
 // 配置请求、响应拦截器，二次封装axios（添加额外功能）
 service.interceptors.request.use((config) => {
     // 返回请求报文
+    console.log('请求',store)
+    if(store.state.token != ''){
+        // 登录后，每次请求头带上token
+        config.headers['token'] = store.state.token
+    }
     return config
 });
 

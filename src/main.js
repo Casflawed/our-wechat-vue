@@ -11,6 +11,7 @@ import './assets/font/iconfont.css'
 import router from './router'
 // 导入axios二次封装工具
 import service from '@/api/axios'
+import store from './store';
 
 Vue.component("SvgIcon", SvgIcon) // 全局注册SvgIcon组件
 Vue.use(Element);
@@ -20,6 +21,7 @@ Vue.config.productionTip = false
 
 
 new Vue({
+  store,
   router,
   render: h => h(App),
 }).$mount('#app')

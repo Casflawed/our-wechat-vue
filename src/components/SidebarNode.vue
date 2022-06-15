@@ -40,7 +40,7 @@ export default {
 
       })
       // 获取好友列表
-      this.$service.get('/api/find/users')
+      this.$service.get('/api/test/one')
       .then(function(response){
         console.log(response)
       })
