@@ -56,7 +56,7 @@ router.beforeEach((to, from, next) => {
     // 1.注册和登录路由放行
     next()
     // eslint-disable-next-line no-constant-condition
-  } else if (true) {  // store.state.token != ''
+  } else if (store.state.token != '') {
     // token存在，放行所有的请求
     next()
   } else {
