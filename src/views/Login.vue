@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import {loginByAccount} from '../api/request'
+import {getImgCode, loginByAccount, loginByEmail, getVerifyEmailCode} from '../api/request'
 export default {
   name: "Login",
   data() {
@@ -165,6 +165,7 @@ export default {
     };
   },
   methods: {
+
     // 重置表单
     reset(formName) {
       this.$refs[formName].resetFields();
@@ -173,7 +174,7 @@ export default {
     // 判断邮箱格式是否正确
     checkEmail(email) {
       return RegExp(
-        /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+          /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
       ).test(email);
     },
 
@@ -186,8 +187,7 @@ export default {
       } else {
         const _this = this;
         // 向后端发送请求
-        this.$service
-          .get("/api/login/emailCode?email=" + this.user_email.email)
+        getVerifyEmailCode(this.user_email.email)
           .then((res) => {
             // 获取key值
             _this.user_email.key = res;
@@ -196,7 +196,7 @@ export default {
                 this.isGeting = false;
                 this.disable = false;
                 this.getCode = "获取验证码";
-                this.count = 6;
+                this.count = 120;
                 clearInterval(countDown);
               } else {
                 this.isGeting = true;
@@ -212,8 +212,7 @@ export default {
     // 获取图片验证码
     getImgCode() {
       const _this = this;
-      this.$service
-        .get("/api/login/captcha?" + new Date().getTime()) //加时间戳，防止浏览器利用缓存
+      getImgCode()
         .then((res) => {
           _this.imgUrl = res.captchaImg;
           _this.user_account.key = res.key;
@@ -258,22 +257,14 @@ export default {
         if (valid) {
           const _this = this;
           // 向后端发送请求
-          this.$service
-            .post(
-              "/api/login/email/" +
-                this.user_email.key +
-                "/" +
-                this.user_email.code +
-                "?email=" +
-                this.user_email.email
-            )
+          loginByEmail(this.user_email.key, this.user_email.code, this.user_email.email)
             .then((response) => {
               // 存储用户相关的信息
               alert('用户信息' + response)
               // 成功提示信息
               this.$message({
                 type: "success",
-                message: "注册成功",
+                message: "登录成功",
               });
               // 跳转到首页
               setTimeout(() => {
@@ -288,6 +279,7 @@ export default {
       });
     },
   },
+
   created() {
     this.getImgCode();
   },

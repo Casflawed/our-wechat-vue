@@ -5,20 +5,26 @@
 </template>
 
 <script>
-import SidebarNode from "./components/SidebarNode.vue";
 
 export default {
   name: "App",
-  components: {
-    SidebarNode,
-  },
 };
 </script>
 
-<style scoped>
+<style>
+* {
+  margin: 0px;
+  padding: 0px;
+}
+html,body {
+  /*height: 100%;*/
+}
 #app {
   height: 600px;
   width: 860px;
   margin: 20px auto;
+  overflow: hidden;
+
 }
+
 </style>
