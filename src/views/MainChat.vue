@@ -7,10 +7,10 @@
     <!-- 1.主页（用户列表、消息列表） -->
     <div class="main_chat">
       <chat-list></chat-list>
-<!--      <message-list></message-list>-->
-      <div class="message_list1">
+     <message-list></message-list>
+      <!-- <div class="message_list1">
         <router-view></router-view>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -56,7 +56,7 @@ export default {
   float: left;
   background-color: #e6e6e6;
 }
-.message_list1 {
+.message_list {
   background-color: whitesmoke;
   width: 550px;
   height: 100%;

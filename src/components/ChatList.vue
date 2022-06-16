@@ -56,12 +56,13 @@ export default {
   },
   methods: {
     goToMessage(){
-      this.$router.push({
-        // path: '/chat/message',
-        name: 'Message'
-      })
+      var payload = 1;
+      this.$store.dispatch('switchChannelId', payload);
     }
   },
+  mounted(){
+    console.log('chatList的Vuex：', this.$store)
+  }
 };
 </script>
 

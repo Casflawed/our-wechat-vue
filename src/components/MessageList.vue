@@ -1,7 +1,7 @@
 <template>
   <div class="message_list">
     <!-- 1.聊天窗口 -->
-    <div class="message">
+    <div class="message" v-show="$store.state.channelId > 0">
       <!-- 聊天框头部 -->
       <header class="header">
         <!-- 聊天对象 -->
@@ -82,26 +82,60 @@
     </div>
 
     <!-- 2.消息发送窗口 -->
-    <div class="message_send">
+    <div class="message_send" v-show="$store.state.channelId > 0">
       <div class="emoji">
         <img src="../assets/logo.png" class="emoji_logo" />
       </div>
-      <textarea></textarea>
-      <div class="send">
-        <span style="color: green">发送(Enter)</span>
+      <textarea v-model="msg" @keyup.enter="sendMsg"></textarea>
+      <div class="send" >
+        <span style="color: green" @click='sendMsg'>发送(Enter)</span>
       </div>
     </div>
   </div>
 </template>
 <script>
+// 建立WebSocket连接
+const ws = new WebSocket("ws://localhost:7379");
 export default {
   name: "MessageList",
-  
   data() {
-    return {};
+    return {
+      msg: '',
+    };
   },
-  methods: {},
+  methods: {
+    sendMsg(){
+      ws.send(JSON.stringify({
+        weixinId: this.$store.state.weixinId,
+        channelId: this.$store.state.channelId,
+        msg: this.msg
+      }))
+      this.msg = ''
+    },
+    // 定义ws事件回调函数
+    handleWsOpenEvent(event){
+      console.log("websocket 连接通道活跃", event)
+    },
+    handleWsCloseEvent(event){
+      console.log("websocket 连接通道关闭", event)
+
+    },
+    handleWsErrorEvent(event){
+      console.log("websocket 连接出错", event)
+
+    },
+    handleWsMessageEvent(event){
+      console.log("websocket 连接消息", event)
+
+    }
+  },
   mounted(){
+    // 初始化WebSocket
+    ws.addEventListener('open', this.handleWsOpenEvent.bind(this), false)
+    ws.addEventListener('close', this.handleWsCloseEvent.bind(this), false)
+    ws.addEventListener('error', this.handleWsErrorEvent.bind(this), false)
+    ws.addEventListener('message', this.handleWsMessageEvent.bind(this), false)
+    console.log("消息列表的连接通道Channel的编号：", this.$store.state.channelId)
   }
 };
 </script>
