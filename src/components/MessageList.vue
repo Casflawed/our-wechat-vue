@@ -10,70 +10,22 @@
       <!-- 聊天内容容器 -->
       <div class="message_wrapper">
         <ul>
-          <li class="message_item">
+          <li class="message_item" v-for="(message) in this.records ">
             <!-- 时间 -->
             <div class="time">
-              <span>08:00</span>
+              <span>{{ formatDate(message.time) }}</span>
             </div>
-            <div class="message_main">
+            <div class="message_main" :class="message.channelId === 1 ? 'self' : ''">
               <!-- 头像 -->
               <img
                 width="36"
                 height="36"
                 src="../assets/img/flameking.jpg"
-                class="friend_avatar"
+                :class="message.channelId === 1 ? 'avatar' : 'friend_avatar'"
               />
               <!-- 聊天内容 -->
               <div class="message_content">
-                <div class="message_text">亲爱的在么？</div>
-              </div>
-            </div>
-          </li>
-          <li class="message_item">
-            <div class="time">
-              <span>12:01</span>
-            </div>
-            <div class="message_main">
-              <img
-                width="36"
-                height="36"
-                src="../assets/img/flameking.jpg"
-                class="friend_avatar"
-              />
-              <div class="message_content">
-                <div class="message_text">晚上有空一起吃饭吧。</div>
-              </div>
-            </div>
-          </li>
-          <li class="message_item">
-            <div class="time">
-              <span>14:44</span>
-            </div>
-            <div class="message_main self">
-              <img
-                width="36"
-                height="36"
-                src="../assets/img/flameking.jpg"
-                class="avatar"
-              />
-              <div class="message_content">
-                <div class="message_text">没空，晚上加班！别打扰我！</div>
-              </div>
-            </div>
-          </li>
-          <li class="message_item">
-            <div class="time">
-              <span>17:30</span>
-            </div>
-            <div class="message_main self">
-              <img
-                width="36"
-                height="36"
-                src="../assets/img/flameking.jpg"
-                class="avatar"
-              />
-              <div class="message_content">
-                <div class="message_text">哈哈</div>
+                <div class="message_text">{{ message.body }}</div>
               </div>
             </div>
           </li>
@@ -100,16 +52,71 @@ export default {
   name: "MessageList",
   data() {
     return {
+      records: [
+          {
+            time: new Date().getTime(),
+            body: '哈哈哈',
+            channelId: 1,
+            weixinId: 'bigchen',
+            imgUrl: '',
+          },
+          {
+            time: new Date().getTime(),
+            body: '哈哈哈----',
+            channelId: 2,
+            weixinId: 'bigchen',
+            imgUrl: '../assets/img/flameking.jpg',
+          },
+          {
+            time: new Date().getTime(),
+            body: '哈哈哈~~~',
+            channelId: 1,
+            weixinId: 'bigchen',
+            imgUrl: '../assets/img/flameking.jpg',
+          }
+      ],
       msg: '',
     };
   },
   methods: {
+    // 时间格式化
+    formatDate(time,format='YY-MM-DD hh:mm:ss'){
+      var date = new Date(time);
+
+      var year = date.getFullYear(),
+          month = date.getMonth()+1,//月份是从0开始的
+          day = date.getDate(),
+          hour = date.getHours(),
+          min = date.getMinutes(),
+          sec = date.getSeconds();
+      var preArr = Array.apply(null,Array(10)).map(function(elem, index) {
+        return '0'+index;
+      });
+
+      var newTime = format.replace(/YY/g,year)
+          .replace(/MM/g,preArr[month]||month)
+          .replace(/DD/g,preArr[day]||day)
+          .replace(/hh/g,preArr[hour]||hour)
+          .replace(/mm/g,preArr[min]||min)
+          .replace(/ss/g,preArr[sec]||sec);
+
+      return newTime;
+    },
+
     sendMsg(){
       ws.send(JSON.stringify({
         weixinId: this.$store.state.weixinId,
         channelId: this.$store.state.channelId,
         msg: this.msg
       }))
+      let record = {
+        time: new Date().getTime(),
+        body: this.msg,
+        channelId: 1,
+        weixinId: 'bigchen',
+        imgUrl: '',
+      }
+      this.records.push(record)
       this.msg = ''
     },
     // 定义ws事件回调函数
@@ -126,8 +133,8 @@ export default {
     },
     handleWsMessageEvent(event){
       console.log("websocket 连接消息", event)
+    },
 
-    }
   },
   mounted(){
     // 初始化WebSocket
