@@ -16,3 +16,5 @@
 ## 引入vue-router和axios二次封装-flameking-22-06.04
 
 ## 登录、注册界面完成-CZH-22-06.13
+
+## Vuex保存客户端token，添加登录注册界面同时调整路由切换-flameking-22.06.15

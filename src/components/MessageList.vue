@@ -96,11 +96,13 @@
 <script>
 export default {
   name: "MessageList",
-
+  
   data() {
     return {};
   },
   methods: {},
+  mounted(){
+  }
 };
 </script>
 
