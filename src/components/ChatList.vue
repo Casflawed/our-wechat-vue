@@ -10,8 +10,24 @@
       <ul>
         <!-- 3.item -->
         <li>
-          <div class="chat_item_wrapper">
-            <div class="chat_item_block chat_item_active">
+          <div class="chat_item_wrapper" @click="goToMessage">
+            <div class="chat_item_block">
+              <div class="chat_item_left">
+                <img class="chat_avatar" src="../assets/img/flameking.jpg" />
+              </div>
+              <div class="chat_item_mid">
+                <span class="chat_nick">flameking</span>
+                <p class="chat_digest">woc</p>
+              </div>
+              <div class="chat_item_right">
+                <span class="chat_time_stamp">12:00</span>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="chat_item_wrapper" @click="goToMessage">
+            <div class="chat_item_block">
               <div class="chat_item_left">
                 <img class="chat_avatar" src="../assets/img/flameking.jpg" />
               </div>
@@ -38,12 +54,22 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    goToMessage(){
+      this.$router.push({
+        // path: '/chat/message',
+        name: 'Message'
+      })
+    }
+  },
 };
 </script>
 
 <style scoped>
 /* 好友选项卡样式start */
+.chat_item_block:hover {
+  background-color: #c4c4c4;
+}
 .chat_item_active {
   /* 好友选项卡激活样式 */
   background-color: #c4c4c4;

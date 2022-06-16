@@ -9,20 +9,27 @@
       <!-- 4.后续采用编程式路由，不需要a标签也行，直接用其他元素也可以跳转 -->
       <div class="nav_container">
         <!-- 4-1.消息 -->
-        <span @click="showChatList" class="icon iconfont icon-vuexiaoxi nav sidebar_original"></span>
+<!--        <span @click="showChatList" class="icon iconfont icon-vuexiaoxi nav sidebar_original"></span>-->
+        <router-link to="/chat" class="icon iconfont icon-vuexiaoxi nav sidebar_original" @click.native="changeActive(1)"
+                     :class="isActive === 1 ? 'myactive' : 'no_active'"/>
       </div>
       <div class="nav_container">
         <!-- 4-2.联系人 -->
-        <span @click="showFriendList" class="icon iconfont icon-vuelianxiren nav sidebar_active"></span>
+<!--        <span @click="showFriendList" class="icon iconfont icon-vuelianxiren nav sidebar_active"></span>-->
+        <router-link to="/friend" class="icon iconfont icon-vuelianxiren nav sidebar_original" @click.native="changeActive(2)"
+                     :class="isActive ===2 ? 'myactive' : 'no_active'"/>
       </div>
       <div class="nav_container">
         <!-- 4-3.收藏 -->
-        <span class="icon iconfont icon-vuecollection-1 nav sidebar_original"></span>
+<!--        <span class="icon iconfont icon-vuecollection-1 nav sidebar_original"></span>-->
+        <router-link to="#" class="icon iconfont icon-vuecollection-1 nav sidebar_original"  @click.native="changeActive(3)"
+                     :class="isActive === 3 ? 'myactive' : 'no_active'"/>
       </div>
     </nav>
     <footer class="nav_container_bottom">
       <!-- 4-4.设置 -->
-        <span class="icon iconfont icon-vueset-3 nav sidebar_original"></span>
+<!--        <span class="icon iconfont icon-vueset-3 nav sidebar_original"></span>-->
+      <router-link to="#" class="icon iconfont icon-vueset-3 nav sidebar_original"/>
     </footer>
   </section>
 </template>
@@ -31,9 +38,14 @@
 export default {
   name: "SidebarNode",
   data() {
-    return {};
+    return {
+      isActive: 2,
+    };
   },
   methods: {
+    changeActive(num){
+      this.isActive = num
+    },
     showFriendList(){
       this.$router.push({
         name:'MainFriend',
@@ -50,8 +62,7 @@ export default {
     },
     showChatList(){
       this.$router.push({
-        name:'MainChat',
-
+        path: '/chat/message',
       })
     }
   },
@@ -67,11 +78,13 @@ export default {
 .iconfont{
   font-size: 24px;
 }
-.sidebar_original{
+
+
+.sidebar_original {
   color: #adaeaf;
 }
-.sidebar_active{
-  color: #00dc41;
+.sidebar_active {
+  /*color: #00dc41;*/
 }
 .nav_container {
   margin: 28px 18px 0;
@@ -81,6 +94,14 @@ export default {
   position: absolute;
   margin: 0 18px 10px;
   bottom: 0px;
+}
+
+/*设置router-link高亮*/
+.myactive {
+  color: #00dc41;
+}
+.no_active {
+  color: #adaeaf;
 }
 
 </style>

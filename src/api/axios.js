@@ -1,5 +1,6 @@
 import axios from "axios";
 import store from '../store'
+import Element from 'element-ui'
 
 // 创建另一个axios实例
 const service = axios.create({

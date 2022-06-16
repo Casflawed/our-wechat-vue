@@ -11,8 +11,21 @@
         <!-- 3.item -->
         <li>
           <div class="friend_item_wrapper">
+            <div class="prefix_letter">A</div>
+            <div class="friend_item_block">
+              <img class="friend_avatar" src="../assets/img/flameking.jpg" />
+              <span class="friend_nick">flameking</span>
+            </div>
+            <div class="friend_item_block">
+              <img class="friend_avatar" src="../assets/img/flameking.jpg" />
+              <span class="friend_nick">flameking</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="friend_item_wrapper">
             <div class="prefix_letter">F</div>
-            <div class="friend_item_block friend_item_active">
+            <div class="friend_item_block ">
               <img class="friend_avatar" src="../assets/img/flameking.jpg" />
               <span class="friend_nick">flameking</span>
             </div>
@@ -37,17 +50,24 @@ export default {
 </script>
 
 <style scoped>
+
+/*好友选项卡的div*/
+.friend_item_wrapper {
+  border-bottom: 2px solid #edeef0;
+}
+
 /* 好友选项卡样式start */
 .prefix_letter {
   /* 联系人名称首字母 */
   color: #999;
   padding: 0px 12px;
-  font-size: 12px;
+  font-size: 14px;
 }
-.friend_item_active {
-  /* 好友选项卡激活样式 */
+/* 好友选项卡激活样式 */
+.friend_item_block:hover {
   background-color: #c4c4c4;
 }
+
 ul {
   /* 消除list样式 */
   list-style-type: none;
