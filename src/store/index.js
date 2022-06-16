@@ -7,12 +7,17 @@ Vue.use(Vuex)
 
 // 业务逻辑，请求方法
 const actions = {
+
     getToken({commit}, data){
         commit('GET_TOKEN', data)
-    }
+    },
+
 }
 
+
 const mutations = {
+
+
     GET_TOKEN:(state, data) =>{
         state.token = data
         // 解析token

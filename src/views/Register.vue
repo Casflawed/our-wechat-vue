@@ -77,6 +77,8 @@
 </template>
 
 <script>
+import {getVerifyEmailCode, register} from "../api/request";
+
 export default {
   name: "Register",
   data() {
@@ -114,7 +116,6 @@ export default {
       disable: false,   // 是否不可用
       // ******* end *********
 
-
       // 校验规则
       rules: {
         wexinId: [
@@ -144,6 +145,7 @@ export default {
     checkEmail(email) {
       return RegExp(/^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/).test(email);
     },
+
     // 获取验证码
     getVerifyCode() {
       if (this.user.email === '' || !this.checkEmail(this.user.email)) {
@@ -154,7 +156,7 @@ export default {
       } else {
         const _this = this
         // 向后端发送请求
-        this.$service.get('/api/register/emailCode?email=' + this.user.email)
+        getVerifyEmailCode(this.user.email)
             .then(res => {
               // 获取key值
               _this.key = res
@@ -163,7 +165,7 @@ export default {
                   this.isGeting = false
                   this.disable = false
                   this.getCode = '获取验证码'
-                  this.count = 6
+                  this.count = 120
                   clearInterval(countDown)
                 } else {
                   this.isGeting = true
@@ -192,7 +194,7 @@ export default {
           } else {
             const _this = this
             // 向后端发送请求
-            this.$service.post('/api/register/user/' + this.key + "/" + this.code, this.user)
+            register(this.key, this.code, this.user)
                 .then(() => {
                   this.$message({
                     type: 'success',
