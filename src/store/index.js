@@ -11,6 +11,9 @@ const actions = {
     getToken({commit}, data){
         commit('GET_TOKEN', data)
     },
+    switchChannelId({commit}, data){
+        commit('SWITCH_CHANNELID', data)
+    }
 
 }
 
@@ -25,6 +28,9 @@ const mutations = {
         state.userId = decodeToken.userId
         state.avatarUrl = decodeToken.avatarUrl
         state.weixinId = decodeToken.weixinId
+    },
+    SWITCH_CHANNELID:(state, data) => {
+        state.channelId = data
     }
 }
 
@@ -33,6 +39,7 @@ const state = {
     userId: '',
     avatarUrl: '',
     weixinId: '',
+    channelId:-1,
 }
 
 
