@@ -8,17 +8,19 @@
 
 export default {
   name: "App",
+  mounted(){
+    console.log('app组件：',this)
+  }
 };
 </script>
 
 <style>
+/* 初始化start */
 * {
-  margin: 0px;
-  padding: 0px;
+  margin: 0px; /* 内间距 */
+  padding: 0px; /* 外间距 */
 }
-html,body {
-  /*height: 100%;*/
-}
+
 #app {
   height: 600px;
   width: 860px;

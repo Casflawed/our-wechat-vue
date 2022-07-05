@@ -93,7 +93,12 @@
 </template>
 
 <script>
-import {getImgCode, loginByAccount, loginByEmail, getVerifyEmailCode} from '../api/request'
+import {
+  getImgCode,
+  loginByAccount,
+  loginByEmail,
+  getVerifyEmailCode,
+} from "../api/request";
 export default {
   name: "Login",
   data() {
@@ -165,7 +170,6 @@ export default {
     };
   },
   methods: {
-
     // 重置表单
     reset(formName) {
       this.$refs[formName].resetFields();
@@ -174,7 +178,7 @@ export default {
     // 判断邮箱格式是否正确
     checkEmail(email) {
       return RegExp(
-          /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
+        /^([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|_|.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/
       ).test(email);
     },
 
@@ -212,11 +216,10 @@ export default {
     // 获取图片验证码
     getImgCode() {
       const _this = this;
-      getImgCode()
-        .then((res) => {
-          _this.imgUrl = res.captchaImg;
-          _this.user_account.key = res.key;
-        });
+      getImgCode().then((res) => {
+        _this.imgUrl = res.captchaImg;
+        _this.user_account.key = res.key;
+      });
     },
 
     // 账号登录
@@ -225,24 +228,30 @@ export default {
         // 通过校验
         if (valid) {
           // 向后端发送请求
-          loginByAccount(this.user_account.key, this.user_account.code, this.user_account)
-          .then(response => {
-              console.log(response)
+          loginByAccount(
+            this.user_account.key,
+            this.user_account.code,
+            this.user_account
+          )
+            .then((response) => {
+              console.log(response);
               // 保存用户token信息
-              this.$store.dispatch('getToken', response);
+              this.$store.dispatch("getToken", response);
               // 提示信息
               this.$message({
                 type: "success",
                 message: "登录成功",
               });
+              // 此时建立websocket消息连接
+              this.createWebSocket();
               // 跳转到主页
               setTimeout(() => {
                 this.$router.replace("/chat");
               }, 1000);
-          })
-          .catch(error => {
-              console.log(error)
-          })
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         } else {
           console.log("error submit!!");
           return false;
@@ -257,10 +266,14 @@ export default {
         if (valid) {
           const _this = this;
           // 向后端发送请求
-          loginByEmail(this.user_email.key, this.user_email.code, this.user_email.email)
+          loginByEmail(
+            this.user_email.key,
+            this.user_email.code,
+            this.user_email.email
+          )
             .then((response) => {
               // 存储用户相关的信息
-              alert('用户信息' + response)
+              alert("用户信息" + response);
               // 成功提示信息
               this.$message({
                 type: "success",
@@ -277,6 +290,43 @@ export default {
           return false;
         }
       });
+    },
+
+    createWebSocket() {
+      let that = this;
+      if ("WebSocket" in window) {
+        that.ws = new WebSocket("ws://localhost:7379");
+        // 初始化websocket实例
+        that.$websocket.setWs(that.ws);
+        that.ws.onopen = function () {
+          console.log("websocket开始连接");
+          // 向netty服务发送用户weixinId以便与ChannelId绑定
+          var data = that.$store.state.weixinId;
+          that.$websocket.ws.send(
+            JSON.stringify({
+              messageType: 2,
+              weixinId: data,
+            })
+          );
+          console.log("发送初始化数据：", data, that);
+        };
+
+        this.$websocket.ws.onmessage = function (event) {
+          console.log(event)
+          var obj = JSON.parse(event.data);
+          console.log("收到服务器内容：", obj);
+        };
+        that.ws.onclose = function () {
+          // 防链接超时，（websocket在一定时间内没有数据交互，就会断开），关闭后重启
+          console.log("连接已关闭...");
+          setTimeout(() => {
+            that.createWebSocket();
+          }, 2000);
+        };
+      } else {
+        // 浏览器不支持 WebSocket
+        console.log("浏览器不支持WebSocket!");
+      }
     },
   },
 

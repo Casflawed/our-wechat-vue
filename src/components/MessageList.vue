@@ -1,7 +1,7 @@
 <template>
   <div class="message_list">
     <!-- 1.聊天窗口 -->
-    <div class="message" v-show="$store.state.channelId > 0">
+    <div class="message" v-show="this.$store.state.channelId > 0">
       <!-- 聊天框头部 -->
       <header class="header">
         <!-- 聊天对象 -->
@@ -10,12 +10,15 @@
       <!-- 聊天内容容器 -->
       <div class="message_wrapper">
         <ul>
-          <li class="message_item" v-for="(message) in this.records ">
+          <li class="message_item" v-for="message in this.records">
             <!-- 时间 -->
             <div class="time">
               <span>{{ formatDate(message.time) }}</span>
             </div>
-            <div class="message_main" :class="message.channelId === 1 ? 'self' : ''">
+            <div
+              class="message_main"
+              :class="message.channelId === 1 ? 'self' : ''"
+            >
               <!-- 头像 -->
               <img
                 width="36"
@@ -39,111 +42,81 @@
         <img src="../assets/logo.png" class="emoji_logo" />
       </div>
       <textarea v-model="msg" @keyup.enter="sendMsg"></textarea>
-      <div class="send" >
-        <span style="color: green" @click='sendMsg'>发送(Enter)</span>
+      <div class="send">
+        <span style="color: green" @click="sendMsg">发送(Enter)</span>
       </div>
     </div>
   </div>
 </template>
 <script>
-// 建立WebSocket连接
-const ws = new WebSocket("ws://localhost:7379");
 export default {
   name: "MessageList",
   data() {
     return {
-      records: [
-          {
-            time: new Date().getTime(),
-            body: '哈哈哈',
-            channelId: 1,
-            weixinId: 'bigchen',
-            imgUrl: '',
-          },
-          {
-            time: new Date().getTime(),
-            body: '哈哈哈----',
-            channelId: 2,
-            weixinId: 'bigchen',
-            imgUrl: '../assets/img/flameking.jpg',
-          },
-          {
-            time: new Date().getTime(),
-            body: '哈哈哈~~~',
-            channelId: 1,
-            weixinId: 'bigchen',
-            imgUrl: '../assets/img/flameking.jpg',
-          }
-      ],
-      msg: '',
+      records: this.$store.state.records,
+      msg: "",
     };
   },
   methods: {
     // 时间格式化
-    formatDate(time,format='YY-MM-DD hh:mm:ss'){
+    formatDate(time, format = "YY-MM-DD hh:mm:ss") {
       var date = new Date(time);
 
       var year = date.getFullYear(),
-          month = date.getMonth()+1,//月份是从0开始的
-          day = date.getDate(),
-          hour = date.getHours(),
-          min = date.getMinutes(),
-          sec = date.getSeconds();
-      var preArr = Array.apply(null,Array(10)).map(function(elem, index) {
-        return '0'+index;
+        month = date.getMonth() + 1, //月份是从0开始的
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds();
+      var preArr = Array.apply(null, Array(10)).map(function (elem, index) {
+        return "0" + index;
       });
 
-      var newTime = format.replace(/YY/g,year)
-          .replace(/MM/g,preArr[month]||month)
-          .replace(/DD/g,preArr[day]||day)
-          .replace(/hh/g,preArr[hour]||hour)
-          .replace(/mm/g,preArr[min]||min)
-          .replace(/ss/g,preArr[sec]||sec);
+      var newTime = format
+        .replace(/YY/g, year)
+        .replace(/MM/g, preArr[month] || month)
+        .replace(/DD/g, preArr[day] || day)
+        .replace(/hh/g, preArr[hour] || hour)
+        .replace(/mm/g, preArr[min] || min)
+        .replace(/ss/g, preArr[sec] || sec);
 
       return newTime;
     },
 
-    sendMsg(){
-      ws.send(JSON.stringify({
-        weixinId: this.$store.state.weixinId,
-        channelId: this.$store.state.channelId,
-        msg: this.msg
-      }))
+    sendMsg() {
       let record = {
+        messageType: 4,
         time: new Date().getTime(),
         body: this.msg,
-        channelId: 1,
-        weixinId: 'bigchen',
-        imgUrl: '',
-      }
-      this.records.push(record)
-      this.msg = ''
-    },
-    // 定义ws事件回调函数
-    handleWsOpenEvent(event){
-      console.log("websocket 连接通道活跃", event)
-    },
-    handleWsCloseEvent(event){
-      console.log("websocket 连接通道关闭", event)
+        channelId: this.$store.state.channelId,
+        weixinId: "bigchen",
+        imgUrl: "",
+      };
+      console.log("sendMsg内部：", this.$websocket.ws);
+      this.$websocket.ws.send(JSON.stringify(record));
 
+      // this.records.push(record);
+      this.msg = "";
     },
-    handleWsErrorEvent(event){
-      console.log("websocket 连接出错", event)
-
-    },
-    handleWsMessageEvent(event){
-      console.log("websocket 连接消息", event)
-    },
-
   },
-  mounted(){
-    // 初始化WebSocket
-    ws.addEventListener('open', this.handleWsOpenEvent.bind(this), false)
-    ws.addEventListener('close', this.handleWsCloseEvent.bind(this), false)
-    ws.addEventListener('error', this.handleWsErrorEvent.bind(this), false)
-    ws.addEventListener('message', this.handleWsMessageEvent.bind(this), false)
-    console.log("消息列表的连接通道Channel的编号：", this.$store.state.channelId)
-  }
+  mounted() {},
+
+  created() {
+    console.log("这里面的this是：", this);
+    var that = this;
+    this.$websocket.ws.onmessage = function (event) {
+      console.log(event);
+      var obj = JSON.parse(event.data);
+      if (obj.messageType === "3") {
+        console.log("MessageList收到服务器内容：", obj.messageType);
+        that.$store.state.channelId = obj.channelId;
+      }else if(obj.messageType === 4){
+        console.log("MessageList收到服务器内容：", that.records);
+        that.$store.commit('ADD_RECODE', obj);
+        console.log('消息列表：', that.records)
+      }
+    };
+  },
 };
 </script>
 

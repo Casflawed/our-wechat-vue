@@ -5,7 +5,8 @@ import Element from 'element-ui'
 // 创建另一个axios实例
 const service = axios.create({
     // 功能1：配置请求基础路径和请求超时时间，注意请求的服务器是开启的代理服务器
-    baseURL: 'http://localhost:5000',
+    // baseURL: 'http://localhost:5000',
+    baseURL:'/api',
     timeout: 5000,
 });
 

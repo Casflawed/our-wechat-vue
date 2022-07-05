@@ -121,7 +121,7 @@ ul {
   margin: 16px 12px;
 }
 .search_input {
-  /* 1.去除选中后的黑色边框效果 */
+  /* 1.去除选中后的黑色内边线效果 */
   outline: none;
   /* 2.消除边框 */
   border-style: none;

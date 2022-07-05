@@ -31,6 +31,9 @@ const mutations = {
     },
     SWITCH_CHANNELID:(state, data) => {
         state.channelId = data
+    },
+    ADD_RECODE:(state, data) => {
+        state.records.push(data)
     }
 }
 
@@ -39,7 +42,31 @@ const state = {
     userId: '',
     avatarUrl: '',
     weixinId: '',
-    channelId:-1,
+    channelId: '',
+    records:
+    [
+        {
+          time: new Date().getTime(),
+          body: "哈哈哈",
+          channelId: 1,
+          weixinId: "bigchen",
+          imgUrl: "",
+        },
+        {
+          time: new Date().getTime(),
+          body: "哈哈哈----",
+          channelId: 2,
+          weixinId: "bigchen",
+          imgUrl: "../assets/img/flameking.jpg",
+        },
+        {
+          time: new Date().getTime(),
+          body: "哈哈哈~~~",
+          channelId: 1,
+          weixinId: "bigchen",
+          imgUrl: "../assets/img/flameking.jpg",
+        },
+      ],
 }
 
 
